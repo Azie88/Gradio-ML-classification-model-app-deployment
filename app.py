@@ -86,7 +86,8 @@ def predict(gender,SeniorCitizen,Partner,Dependents, tenure, PhoneService, Multi
     # Make predictions using the model
      predictions = model.predict(final_df)
 
-     prediction_label = "This customer is likely to Churn" if predictions.item() == "Yes" else "This customer is Not likely churn"
+     # prediction_label = "This customer is likely to Churn" if predictions.item() == "Yes" else "This customer is Not likely churn"
+     prediction_label = {"Prediction: CHURN": float(predictions[0]), "Prediction: STAY": 1-float(predictions[0])}
 
 
      return prediction_label
@@ -135,12 +136,34 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
 
 
     with gr.Row():
-
         predict_btn = gr.Button('Predict')
+
+    with gr.Accordion("Open for information on inputs"):
+        gr.Markdown("""This app receives the following as inputs and processes them to return the prediction on whether a customer, given the inputs, will churn or not.
+                    - Contract: The contract term of the customer (Month-to-Month, One year, Two year)
+                    - Dependents: Whether the customer has dependents or not (Yes, No)
+                    - DeviceProtection: Whether the customer has device protection or not (Yes, No, No internet service)
+                    - Gender: Whether the customer is a male or a female
+                    - InternetService: Customer's internet service provider (DSL, Fiber Optic, No)
+                    - MonthlyCharges: The amount charged to the customer monthly
+                    - MultipleLines: Whether the customer has multiple lines or not
+                    - OnlineBackup: Whether the customer has online backup or not (Yes, No, No Internet)
+                    - OnlineSecurity: Whether the customer has online security or not (Yes, No, No Internet)
+                    - PaperlessBilling: Whether the customer has paperless billing or not (Yes, No)
+                    - Partner: Whether the customer has a partner or not (Yes, No)
+                    - Payment Method: The customer's payment method (Electronic check, mailed check, Bank transfer(automatic), Credit card(automatic))
+                    - Phone Service: Whether the customer has a phone service or not (Yes, No)
+                    - SeniorCitizen: Whether a customer is a senior citizen or not
+                    - StreamingMovies: Whether the customer has streaming movies or not (Yes, No, No Internet service)
+                    - StreamingTV: Whether the customer has streaming TV or not (Yes, No, No internet service)
+                    - TechSupport: Whether the customer has tech support or not (Yes, No, No internet)
+                    - Tenure: Number of months the customer has stayed with the company
+                    - TotalCharges: The total amount charged to the customer
+                    """)
 
 # Define the output interfaces
     output_interface = gr.Label(label="churn")
 
     predict_btn.click(fn=predict, inputs=input_interface, outputs=output_interface)
 
-app.launch()
+app.launch(share=True)
