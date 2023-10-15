@@ -93,50 +93,22 @@ def predict(gender,SeniorCitizen,Partner,Dependents, tenure, PhoneService, Multi
      return prediction_label
 
 
-input_interface=[]
+input_interface = []
+
 with gr.Blocks(theme=gr.themes.Soft()) as app:
 
     img = gr.Image("customer churn.png")
 
-    Title=gr.Label('Predicting Customer Churn App')
+    Title = gr.Label('Predicting Customer Churn App')
 
     with gr.Row():
         Title
-    
+
     with gr.Row():
         img
 
     with gr.Row():
-        gr.Markdown("This app predicts likelihood of a customer to churn")
-
-
-    with gr.Row():
-        with gr.Column():
-            input_interface = [
-                gr.components.Radio(['male', 'female'], label='Select your gender'),
-                gr.components.Dropdown(['1', '0'], label="Are you a Seniorcitizen; No=0 and Yes=1"),
-                gr.components.Radio(['Yes', 'No'], label='Do you have Partner'),
-                gr.components.Dropdown(['No', 'Yes'], label='Do you have any Dependents?'),
-                gr.components.Number(label='Lenght of tenure (no. of months with Telco)', minimum=0, maximum=73),
-                gr.components.Radio(['No', 'Yes'], label='Do you have PhoneService? '),
-                gr.components.Radio(['No', 'Yes'], label='Do you have MultipleLines'),
-                gr.components.Radio(['DSL', 'Fiber optic', 'No'], label='Do you have InternetService'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineSecurity?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineBackup?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have DeviceProtection?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have TechSupport?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingTV?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingMovies?'),
-                gr.components.Dropdown(['Month-to-month', 'One year', 'Two year'], label='which Contract do you use?'),
-                gr.components.Radio(['Yes', 'No'], label='Do you prefer PaperlessBilling?'),
-                gr.components.Dropdown(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
-                gr.components.Slider(label="Enter monthly charges"),
-                gr.components.Slider(label="Enter total charges", maximum=10000)
-            ]
-
-
-    with gr.Row():
-        predict_btn = gr.Button('Predict')
+        gr.Markdown("This app predicts likelihood of a customer to churn or stay with the company")
 
     with gr.Accordion("Open for information on inputs"):
         gr.Markdown("""This app receives the following as inputs and processes them to return the prediction on whether a customer, given the inputs, will churn or not.
@@ -160,6 +132,41 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                     - Tenure: Number of months the customer has stayed with the company
                     - TotalCharges: The total amount charged to the customer
                     """)
+
+    with gr.Row():
+        with gr.Column():
+            input_interface_column_1 = [
+                gr.components.Radio(['male', 'female'], label='Select your gender'),
+                gr.components.Dropdown(['1', '0'], label="Are you a Seniorcitizen; No=0 and Yes=1"),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Partner'),
+                gr.components.Dropdown(['No', 'Yes'], label='Do you have any Dependents?'),
+                gr.components.Number(label='Lenght of tenure (no. of months with Telco)', minimum=0, maximum=73),
+                gr.components.Radio(['No', 'Yes'], label='Do you have PhoneService? '),
+                gr.components.Radio(['No', 'Yes'], label='Do you have MultipleLines'),
+                gr.components.Radio(['DSL', 'Fiber optic', 'No'], label='Do you have InternetService'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineSecurity?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineBackup?')
+            ]
+
+        with gr.Column():
+            input_interface_column_2 = [
+                gr.components.Radio(['No', 'Yes'], label='Do you have DeviceProtection?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have TechSupport?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingTV?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingMovies?'),
+                gr.components.Dropdown(['Month-to-month', 'One year', 'Two year'], label='which Contract do you use?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you prefer PaperlessBilling?'),
+                gr.components.Dropdown(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
+                gr.components.Slider(label="Enter monthly charges"),
+                gr.components.Slider(label="Enter total charges", maximum=10000)
+            ]
+
+    with gr.Row():
+        input_interface.extend(input_interface_column_1)
+        input_interface.extend(input_interface_column_2)
+
+    with gr.Row():
+        predict_btn = gr.Button('Predict')
 
 # Define the output interfaces
     output_interface = gr.Label(label="churn")
