@@ -1,7 +1,5 @@
 # Gradio Customer Churn App 💻
 
-![Alt text](images/banner.png)
-
 This project uses a trained machine learning model to build a web interface that allows anyone to use the classification model to predict whether a customer will churn(leave) or not churn (stay).
 
 ## Summary
