@@ -5,7 +5,7 @@ import joblib
 
 
 
-#Load scaler, imputer, model
+#Load transformation pipeline & model
 pipeline = joblib.load(r'toolkit\pipeline.joblib')
 model = joblib.load(r'toolkit\model.joblib')
 
@@ -38,11 +38,11 @@ def predict(SeniorCitizen,Partner,Dependents, tenure,
 
  })
 
-    # Selecting categorical and numerical columns separately
+# Selecting categorical and numerical columns separately
      cat_cols = [col for col in input_df.columns if input_df[col].dtype == 'object']
      num_cols = [col for col in input_df.columns if input_df[col].dtype != 'object']
 
-     X_processed = pipeline.fit_transform(input_df)
+     X_processed = pipeline.transform(input_df)
 
      # Extracting feature names for numerical columns
      num_feature_names = num_cols
@@ -86,7 +86,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                 gr.components.Radio(['Yes', 'No'], label="Are you a Seniorcitizen?"),
                 gr.components.Radio(['Yes', 'No'], label='Do you have Partner?'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have any Dependents?'),
-                gr.components.Number(label='Lenghth of tenure in months', minimum=0, maximum=73),
+                gr.components.Slider(label='Lenghth of tenure in months', minimum=0, maximum=73),
                 gr.components.Radio(['DSL', 'Fiber optic', 'No'], label='Do you have InternetService'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have OnlineSecurity?'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have OnlineBackup?')
@@ -98,9 +98,9 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                 gr.components.Radio(['No', 'Yes'], label='Do you have TechSupport?'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have StreamingTV?'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have StreamingMovies?'),
-                gr.components.Dropdown(['Month-to-month', 'One year', 'Two year'], label='which Contract do you use?'),
+                gr.components.Radio(['Month-to-month', 'One year', 'Two year'], label='which Contract do you use?'),
                 gr.components.Radio(['Yes', 'No'], label='Do you prefer PaperlessBilling?'),
-                gr.components.Dropdown(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
+                gr.components.Radio(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
                 gr.components.Slider(label="Enter monthly charges", minimum=18.40, maximum=118.65),
                 gr.components.Slider(label="Enter total charges", maximum=9000)
             ]
