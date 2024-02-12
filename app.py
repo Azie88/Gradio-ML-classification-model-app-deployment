@@ -1,13 +1,17 @@
 import gradio as gr
 import pandas as pd
 import numpy as np
-import joblib
+import joblib, os
 
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-#Load transformation pipeline & model
-pipeline = joblib.load(r'toolkit\pipeline.joblib')
-model = joblib.load(r'toolkit\model.joblib')
+pipeline_path = os.path.join(script_dir, 'toolkit', 'pipeline.joblib')
+model_path = os.path.join(script_dir, 'toolkit', 'model.joblib')
+
+# Load transformation pipeline and model
+pipeline = joblib.load(pipeline_path)
+model = joblib.load(model_path)
 
 
 
