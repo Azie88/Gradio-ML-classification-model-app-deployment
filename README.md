@@ -84,19 +84,10 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
 ## Screenshots 🖼️
 
-<table>
-    <tr>
-        <th> Gradio App </th>
-    </tr>
-    <tr>
-        <td>![Gradio App Screenshot 1](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/a07deca0-3cc9-411c-868f-7fc5245bea3c)
-</td>
-    </tr>
-    <tr>
-        <td>![Gradio App Screenshot 2](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/1506b677-b446-4a31-90a4-cb0b2d3e2017)
-</td>
-    </tr>
-</table>
+![Gradio App Screenshot 1](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/a07deca0-3cc9-411c-868f-7fc5245bea3c)
+
+![Gradio App Screenshot 2](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/1506b677-b446-4a31-90a4-cb0b2d3e2017)
+
 
 ## Author 🖊️
 
