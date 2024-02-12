@@ -1,4 +1,5 @@
 # Gradio Customer Churn App 💻
+![Gradio x Huggingface](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/9c5915fd-9ed8-41be-b725-50a8bc0e2548)
 
 This project uses a trained machine learning model to build a web interface that allows anyone to use the classification model to predict whether a customer will churn(leave) or not churn (stay).
 
@@ -88,10 +89,12 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
         <th> Gradio App </th>
     </tr>
     <tr>
-        <td></td>
+        <td>![Gradio App Screenshot 1](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/a07deca0-3cc9-411c-868f-7fc5245bea3c)
+</td>
     </tr>
     <tr>
-        <td></td>
+        <td>![Gradio App Screenshot 2](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/1506b677-b446-4a31-90a4-cb0b2d3e2017)
+</td>
     </tr>
 </table>
 
