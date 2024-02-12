@@ -1,5 +1,7 @@
 # Gradio Customer Churn App 💻
-![Gradio x Huggingface](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/9c5915fd-9ed8-41be-b725-50a8bc0e2548)
+<p align="center">
+  <img src="https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/9c5915fd-9ed8-41be-b725-50a8bc0e2548" alt="Gradio x Huggingface">
+</p>
 
 This project uses a trained machine learning model to build a web interface that allows anyone to use the classification model to predict whether a customer will churn(leave) or not churn (stay).
 
