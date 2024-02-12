@@ -4,9 +4,9 @@ This project uses a trained machine learning model to build a web interface that
 
 ## Summary
 
-| Code      | Name        | Published Article |
+| Code      | Name        | Deployed App |
 |-----------|-------------|:-------------:|
-| LP4 | Customer Churn Prediction with Gradio |  [Churn Prediction article]() |
+| LP4 | Customer Churn Prediction with Gradio |  [Huggingface Space](https://huggingface.co/spaces/Azie88/Customer-Churn-Classification) |
 
 ## Introduction
 
@@ -65,7 +65,7 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
 *Note: If you encounter any issues on MacOS, please make sure Xcode is installed.*
 
-- Run the demo apps (being at the repository root):
+- Run the app.py file (being at the repository root):
 
   Gradio: 
   
@@ -100,4 +100,10 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
 ## Author 🖊️
 
-- [Andrew Obando](https://www.linkedin.com/in/andrewobando/)
+Andrew Obando
+
+Connect with me on LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/andrewobando/)
+
+---
+
+Feel free to star ⭐ this repository if you find it helpful!
