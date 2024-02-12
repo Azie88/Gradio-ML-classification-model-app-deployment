@@ -88,13 +88,10 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
         <th> Gradio App </th>
     </tr>
     <tr>
-        <td><img src="screenshots\Screenshot 1.png"/></td>
+        <td></td>
     </tr>
     <tr>
-        <td><img src="screenshots\Screenshot 2.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="screenshots\Screenshot 3.png"/></td>
+        <td></td>
     </tr>
 </table>
 
