@@ -95,7 +95,9 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
 Andrew Obando
 
-Connect with me on LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/andrewobando/)
+Connect with me on [LinkedIn](https://www.linkedin.com/in/andrewobando/)
+
+Follow me on [Medium](https://medium.com/@obandoandrew8)
 
 ---
 
