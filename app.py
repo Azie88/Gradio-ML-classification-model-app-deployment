@@ -7,7 +7,7 @@ import joblib, os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 pipeline_path = os.path.join(script_dir, 'toolkit', 'pipeline.joblib')
-model_path = os.path.join(script_dir, 'toolkit', 'model.joblib')
+model_path = os.path.join(script_dir, 'toolkit', 'Random Forest Classifier.joblib')
 
 # Load transformation pipeline and model
 pipeline = joblib.load(pipeline_path)
@@ -61,11 +61,20 @@ def predict(SeniorCitizen,Partner,Dependents, tenure,
      # Convert X_processed to DataFrame
      final_df = pd.DataFrame(X_processed, columns=feature_names)
 
+     # Extract the first three columns
+     first_three_columns = final_df.iloc[:, :3]
+
+     # Extract the remaining columns except the first three
+     remaining_columns = final_df.iloc[:, 3:]
+
+     # Concatenate the remaining columns with the first three columns shifted to the end
+     final_df = pd.concat([remaining_columns, first_three_columns], axis=1)
+
      # Make predictions using the model
      predictions = model.predict(final_df)
 
      # prediction_label = "This customer is likely to Churn" if predictions.item() == "Yes" else "This customer is Not likely churn"
-     prediction_label = {"Prediction: CHURN": float(predictions[0]), "Prediction: STAY": 1-float(predictions[0])}
+     prediction_label = {"Prediction: CHURN ": float(predictions[0]), "Prediction: STAY": 1-float(predictions[0])}
 
      return prediction_label
 
