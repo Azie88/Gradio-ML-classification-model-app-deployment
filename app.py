@@ -5,7 +5,6 @@ import joblib, os
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
 pipeline_path = os.path.join(script_dir, 'toolkit', 'pipeline.joblib')
 model_path = os.path.join(script_dir, 'toolkit', 'Random Forest Classifier.joblib')
 
@@ -14,12 +13,18 @@ pipeline = joblib.load(pipeline_path)
 model = joblib.load(model_path)
 
 
+# Create a function to calculate TotalCharges
+def calculate_total_charges(tenure, monthly_charges):
+    return tenure * monthly_charges
 
 # Create a function that applies the ML pipeline and makes predictions
 def predict(SeniorCitizen,Partner,Dependents, tenure,
             InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,
             StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,
-            MonthlyCharges,TotalCharges):
+            MonthlyCharges):
+     
+     # Calculate TotalCharges
+     TotalCharges = calculate_total_charges(tenure, MonthlyCharges)
 
     # Create a dataframe with the input data
      input_df = pd.DataFrame({
@@ -45,29 +50,22 @@ def predict(SeniorCitizen,Partner,Dependents, tenure,
 # Selecting categorical and numerical columns separately
      cat_cols = [col for col in input_df.columns if input_df[col].dtype == 'object']
      num_cols = [col for col in input_df.columns if input_df[col].dtype != 'object']
-
+     
      X_processed = pipeline.transform(input_df)
-
-     # Extracting feature names for numerical columns
-     num_feature_names = num_cols
 
      # Extracting feature names for categorical columns after one-hot encoding
      cat_encoder = pipeline.named_steps['preprocessor'].named_transformers_['cat'].named_steps['onehot']
      cat_feature_names = cat_encoder.get_feature_names_out(cat_cols)
 
      # Concatenating numerical and categorical feature names
-     feature_names = num_feature_names + list(cat_feature_names)
+     feature_names = num_cols + list(cat_feature_names)
 
      # Convert X_processed to DataFrame
      final_df = pd.DataFrame(X_processed, columns=feature_names)
 
-     # Extract the first three columns
+     # Extract the first three columns and remaining columns, then merge
      first_three_columns = final_df.iloc[:, :3]
-
-     # Extract the remaining columns except the first three
      remaining_columns = final_df.iloc[:, 3:]
-
-     # Concatenate the remaining columns with the first three columns shifted to the end
      final_df = pd.concat([remaining_columns, first_three_columns], axis=1)
 
      # Make predictions using the model
@@ -99,23 +97,22 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                 gr.components.Radio(['Yes', 'No'], label="Are you a Seniorcitizen?"),
                 gr.components.Radio(['Yes', 'No'], label='Do you have Partner?'),
                 gr.components.Radio(['No', 'Yes'], label='Do you have any Dependents?'),
-                gr.components.Slider(label='Lenghth of tenure in months', minimum=0, maximum=73),
-                gr.components.Radio(['DSL', 'Fiber optic', 'No'], label='Do you have InternetService'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineSecurity?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have OnlineBackup?')
+                gr.components.Slider(label='Enter lenghth of Tenure in Months', minimum=1, maximum=73, step=1),
+                gr.components.Radio(['DSL', 'Fiber optic', 'No Internet'], label='What is your Internet Service?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Online Security?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Online Backup?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Device Protection?')
             ]
 
         with gr.Column():
             input_interface_column_2 = [
-                gr.components.Radio(['No', 'Yes'], label='Do you have DeviceProtection?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have TechSupport?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingTV?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have StreamingMovies?'),
-                gr.components.Radio(['Month-to-month', 'One year', 'Two year'], label='which Contract do you use?'),
-                gr.components.Radio(['Yes', 'No'], label='Do you prefer PaperlessBilling?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Tech Support?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Streaming TV?'),
+                gr.components.Radio(['No', 'Yes'], label='Do you have Streaming Movies?'),
+                gr.components.Radio(['Month-to-month', 'One year', 'Two year'], label='What is your Contract Type?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you prefer Paperless Billing?'),
                 gr.components.Radio(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
-                gr.components.Slider(label="Enter monthly charges", minimum=18.40, maximum=118.65),
-                gr.components.Slider(label="Enter total charges", maximum=9000)
+                gr.components.Slider(label="Enter monthly charges", minimum=18.40, maximum=118.65)
             ]
 
     with gr.Row():
@@ -126,8 +123,8 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
         predict_btn = gr.Button('Predict')
         output_interface = gr.Label(label="churn")
     
-    with gr.Accordion("Open for information on inputs"):
-        gr.Markdown("""This app receives the following as inputs and processes them to return the prediction on whether a customer, given the inputs, will churn or not.
+    with gr.Accordion("Open for information on inputs", open=False):
+        gr.Markdown("""This app receives the following as inputs and processes them to return the prediction on whether a customer, will churn or not.
                     
                     - SeniorCitizen: Whether a customer is a senior citizen or not
                     - Partner: Whether the customer has a partner or not (Yes, No)
@@ -144,7 +141,6 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                     - PaperlessBilling: Whether the customer has paperless billing or not (Yes, No)
                     - Payment Method: The customer's payment method (Electronic check, mailed check, Bank transfer(automatic), Credit card(automatic))
                     - MonthlyCharges: The amount charged to the customer monthly
-                    - TotalCharges: The total amount charged to the customer
                     """)
         
     predict_btn.click(fn=predict, inputs=input_interface, outputs=output_interface)
