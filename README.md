@@ -7,9 +7,9 @@ This project uses a trained machine learning model to build a web interface that
 
 ## Summary
 
-| Code      | Name        | Deployed App |
-|-----------|-------------|:-------------:|
-| LP4 | Customer Churn Prediction with Gradio |  [Huggingface Space](https://huggingface.co/spaces/Azie88/Customer-Churn-Classification) |
+| Code      | Name        | Deployed App | Article |
+|-----------|-------------|:-------------:|:-------------:|
+| LP4 | Customer Churn Prediction with Gradio |  [Huggingface Space](https://huggingface.co/spaces/Azie88/Churn-Classification) | [Medium Article](https://medium.com/@obandoandrew8/deploying-a-ml-model-with-gradio-and-hugging-face-python-machine-learning-83f076c58a0c) |
 
 ## Introduction
 
@@ -82,7 +82,7 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
   - Go to your browser at the following address :
         
-      http://127.0.0.1:7860
+      http://localhost:7860
 
 ## Screenshots 🖼️
 
