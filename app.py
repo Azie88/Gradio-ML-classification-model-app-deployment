@@ -72,7 +72,7 @@ def predict(SeniorCitizen,Partner,Dependents, tenure,
      predictions = model.predict(final_df)
 
      # prediction_label = "This customer is likely to Churn" if predictions.item() == "Yes" else "This customer is Not likely churn"
-     prediction_label = {"Prediction: CHURN ": float(predictions[0]), "Prediction: STAY": 1-float(predictions[0])}
+     prediction_label = {"Prediction: CHURN 🔴": float(predictions[0]), "Prediction: STAY ✅": 1-float(predictions[0])}
 
      return prediction_label
 
