@@ -7,9 +7,9 @@ This project uses a trained machine learning model to build a web interface that
 
 ## Summary
 
-| Code      | Name        | Deployed App | Article |
-|-----------|-------------|:-------------:|:-------------:|
-| LP4 | Customer Churn Prediction with Gradio |  [Huggingface Space](https://huggingface.co/spaces/Azie88/Churn-Classification) | [Medium Article](https://medium.com/@obandoandrew8/deploying-a-ml-model-with-gradio-and-hugging-face-python-machine-learning-83f076c58a0c) |
+| Deployed App | Article |
+|:-------------:|:-------------:|
+|  [Huggingface Space](https://huggingface.co/spaces/Azie88/Churn-Classification) | [Medium Article](https://medium.com/@obandoandrew8/deploying-a-ml-model-with-gradio-and-hugging-face-python-machine-learning-83f076c58a0c) |
 
 ## Introduction
 
@@ -87,7 +87,6 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 ## Screenshots 🖼️
 
 ![Gradio App Screenshot 1](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/a07deca0-3cc9-411c-868f-7fc5245bea3c)
-
 ![Gradio App Screenshot 2](https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/1506b677-b446-4a31-90a4-cb0b2d3e2017)
 
 
