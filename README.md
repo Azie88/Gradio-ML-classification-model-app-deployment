@@ -3,7 +3,7 @@
   <img src="https://github.com/Azie88/Gradio-ML-classification-model-app-deployment/assets/101363399/9c5915fd-9ed8-41be-b725-50a8bc0e2548" alt="Gradio x Huggingface">
 </p>
 
-This project uses a trained machine learning model to build a web interface that allows anyone to use the classification model to predict whether a customer will churn(leave) or not churn (stay).
+This project uses a trained machine learning classification model to build a web interface that allows users to predict whether a customer will churn(leave) or not churn (stay).
 
 ## Summary
 
@@ -68,7 +68,7 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
 *Note: If you encounter any issues on MacOS, please make sure Xcode is installed.*
 
-- Run the app.py file (being at the repository root):
+5. Run the app.py file (being at the repository root):
 
   Gradio: 
   
@@ -80,7 +80,7 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
 
       python app.py  
 
-  - Go to your browser at the following address :
+  - Go to your browser at the following IP address :
         
       http://localhost:7860
 
