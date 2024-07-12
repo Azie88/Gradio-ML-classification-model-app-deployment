@@ -9,7 +9,7 @@ This project uses a trained machine learning classification model to build a web
 
 | Deployed App | Article |
 |:-------------:|:-------------:|
-|  [Huggingface Space](https://huggingface.co/spaces/Azie88/Churn-Classification) | [Medium Article](https://medium.com/@obandoandrew8/deploying-a-ml-model-with-gradio-and-hugging-face-python-machine-learning-83f076c58a0c) |
+|  [Huggingface Space](https://huggingface.co/spaces/Azie88/Telco-Customer-Churn) | [Medium Article](https://medium.com/@obandoandrew8/deploying-a-ml-model-with-gradio-and-hugging-face-python-machine-learning-83f076c58a0c) |
 
 ## Introduction
 
