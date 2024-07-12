@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import joblib, os
 
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 pipeline_path = os.path.join(script_dir, 'toolkit', 'pipeline.joblib')
 model_path = os.path.join(script_dir, 'toolkit', 'Random Forest Classifier.joblib')
@@ -12,22 +11,21 @@ model_path = os.path.join(script_dir, 'toolkit', 'Random Forest Classifier.jobli
 pipeline = joblib.load(pipeline_path)
 model = joblib.load(model_path)
 
-
 # Create a function to calculate TotalCharges
 def calculate_total_charges(tenure, monthly_charges):
     return tenure * monthly_charges
 
 # Create a function that applies the ML pipeline and makes predictions
-def predict(SeniorCitizen,Partner,Dependents, tenure,
-            InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,
-            StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,
+def predict(SeniorCitizen, Partner, Dependents, tenure,
+            InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport,
+            StreamingTV, StreamingMovies, Contract, PaperlessBilling, PaymentMethod,
             MonthlyCharges):
-     
-     # Calculate TotalCharges
-     TotalCharges = calculate_total_charges(tenure, MonthlyCharges)
+    
+    # Calculate TotalCharges
+    TotalCharges = calculate_total_charges(tenure, MonthlyCharges)
 
     # Create a dataframe with the input data
-     input_df = pd.DataFrame({
+    input_df = pd.DataFrame({
         'SeniorCitizen': [SeniorCitizen],
         'Partner': [Partner],
         'Dependents': [Dependents],
@@ -44,40 +42,37 @@ def predict(SeniorCitizen,Partner,Dependents, tenure,
         'PaymentMethod': [PaymentMethod],
         'MonthlyCharges': [MonthlyCharges],
         'TotalCharges': [TotalCharges]
+    })
 
- })
+    # Selecting categorical and numerical columns separately
+    cat_cols = [col for col in input_df.columns if input_df[col].dtype == 'object']
+    num_cols = [col for col in input_df.columns if input_df[col].dtype != 'object']
+    
+    X_processed = pipeline.transform(input_df)
 
-# Selecting categorical and numerical columns separately
-     cat_cols = [col for col in input_df.columns if input_df[col].dtype == 'object']
-     num_cols = [col for col in input_df.columns if input_df[col].dtype != 'object']
-     
-     X_processed = pipeline.transform(input_df)
+    # Extracting feature names for categorical columns after one-hot encoding
+    cat_encoder = pipeline.named_steps['preprocessor'].named_transformers_['cat'].named_steps['onehot']
+    cat_feature_names = cat_encoder.get_feature_names_out(cat_cols)
 
-     # Extracting feature names for categorical columns after one-hot encoding
-     cat_encoder = pipeline.named_steps['preprocessor'].named_transformers_['cat'].named_steps['onehot']
-     cat_feature_names = cat_encoder.get_feature_names_out(cat_cols)
+    # Concatenating numerical and categorical feature names
+    feature_names = num_cols + list(cat_feature_names)
 
-     # Concatenating numerical and categorical feature names
-     feature_names = num_cols + list(cat_feature_names)
+    # Convert X_processed to DataFrame
+    final_df = pd.DataFrame(X_processed, columns=feature_names)
 
-     # Convert X_processed to DataFrame
-     final_df = pd.DataFrame(X_processed, columns=feature_names)
+    # Extract the first three columns and remaining columns, then merge
+    first_three_columns = final_df.iloc[:, :3]
+    remaining_columns = final_df.iloc[:, 3:]
+    final_df = pd.concat([remaining_columns, first_three_columns], axis=1)
 
-     # Extract the first three columns and remaining columns, then merge
-     first_three_columns = final_df.iloc[:, :3]
-     remaining_columns = final_df.iloc[:, 3:]
-     final_df = pd.concat([remaining_columns, first_three_columns], axis=1)
+    # Make predictions using the model
+    prediction_probs = model.predict_proba(final_df)[0]
+    prediction_label = {
+        "Prediction: CHURN 🔴": prediction_probs[1],
+        "Prediction: STAY ✅": prediction_probs[0]
+    }
 
-     # Make predictions using the model
-     predictions = model.predict(final_df)
-
-     # prediction_label = "This customer is likely to Churn" if predictions.item() == "Yes" else "This customer is Not likely churn"
-     prediction_label = {"Prediction: CHURN 🔴": float(predictions[0]), "Prediction: STAY ✅": 1-float(predictions[0])}
-
-     return prediction_label
-
-
-
+    return prediction_label
 
 input_interface = []
 
