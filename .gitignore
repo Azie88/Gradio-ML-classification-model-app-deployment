@@ -1,1 +1,25 @@
 venv/
+.venv/
+env/
+
+# Python caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Gradio runtime files (including tunnel certificates)
+.gradio/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

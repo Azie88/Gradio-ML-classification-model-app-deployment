@@ -2,6 +2,8 @@ import gradio as gr
 import pandas as pd
 import numpy as np
 import joblib, os
+import inspect
+import warnings
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 pipeline_path = os.path.join(script_dir, 'toolkit', 'pipeline.joblib')
@@ -76,7 +78,21 @@ def predict(SeniorCitizen, Partner, Dependents, tenure,
 
 input_interface = []
 
-with gr.Blocks(theme=gr.themes.Soft()) as app:
+# Gradio 5 requires constructor themes; Gradio 6 accepts them at launch.
+theme = gr.themes.Soft()
+theme_at_launch = "theme" in inspect.signature(gr.Blocks.launch).parameters
+if theme_at_launch:
+    app = gr.Blocks()
+else:
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message="The 'theme' parameter in the Blocks constructor.*",
+            category=DeprecationWarning,
+        )
+        app = gr.Blocks(theme=theme)
+
+with app:
 
     Title = gr.Label('Customer Churn Prediction App')
 
@@ -91,19 +107,19 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
             input_interface_column_1 = [
                 gr.components.Radio(['Yes', 'No'], label="Are you a Seniorcitizen?"),
                 gr.components.Radio(['Yes', 'No'], label='Do you have Partner?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have any Dependents?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have any Dependents?'),
                 gr.components.Slider(label='Enter lenghth of Tenure in Months', minimum=1, maximum=73, step=1),
                 gr.components.Radio(['DSL', 'Fiber optic', 'No Internet'], label='What is your Internet Service?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have Online Security?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have Online Backup?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have Device Protection?')
+                gr.components.Radio(['Yes', 'No'], label='Do you have Online Security?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Online Backup?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Device Protection?')
             ]
 
         with gr.Column():
             input_interface_column_2 = [
-                gr.components.Radio(['No', 'Yes'], label='Do you have Tech Support?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have Streaming TV?'),
-                gr.components.Radio(['No', 'Yes'], label='Do you have Streaming Movies?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Tech Support?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Streaming TV?'),
+                gr.components.Radio(['Yes', 'No'], label='Do you have Streaming Movies?'),
                 gr.components.Radio(['Month-to-month', 'One year', 'Two year'], label='What is your Contract Type?'),
                 gr.components.Radio(['Yes', 'No'], label='Do you prefer Paperless Billing?'),
                 gr.components.Radio(['Electronic check', 'Mailed check', 'Bank transfer (automatic)', 'Credit card (automatic)'], label='Which PaymentMethod do you prefer?'),
@@ -116,7 +132,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
 
     with gr.Row():
         predict_btn = gr.Button('Predict')
-        output_interface = gr.Label(label="churn")
+        output_interface = gr.Label(label="Prediction", num_top_classes=1)
     
     with gr.Accordion("Open for information on inputs", open=False):
         gr.Markdown("""This app receives the following as inputs and processes them to return the prediction on whether a customer, will churn or not.
@@ -140,4 +156,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
         
     predict_btn.click(fn=predict, inputs=input_interface, outputs=output_interface)
         
-app.launch(share=True)
+if __name__ == "__main__":
+    # Public sharing requires a working connection to Gradio's tunnel service.
+    share = os.getenv("GRADIO_SHARE", "false").lower() in {"1", "true", "yes"}
+    app.launch(share=share, **({"theme": theme} if theme_at_launch else {}))

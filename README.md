@@ -84,6 +84,24 @@ For manual installation, you need to have `Python 3` on your system. Then you ca
         
       http://localhost:7860
 
+The app runs locally by default. To request a temporary public Gradio link,
+set `GRADIO_SHARE` before starting it. In Windows PowerShell:
+
+```powershell
+$env:GRADIO_SHARE = "true"
+python app.py
+```
+
+Set `$env:GRADIO_SHARE = "false"` to return to local-only mode. If Gradio
+reports "Could not create share link", the local URL can still work. Check
+[Gradio's service status](https://status.gradio.app) and whether your network,
+proxy, firewall, or antivirus is blocking Gradio's tunnel client. See the
+[share-link troubleshooting guide](https://www.gradio.app/guides/understanding-gradio-share-links).
+
+The app uses Gradio's Soft theme. For the pinned Gradio 5.50.0 release, it
+passes the theme to `Blocks()` and suppresses only that migration warning.
+When `launch()` supports themes (Gradio 6), it passes the theme there instead.
+
 ## Screenshots 🖼️
 
 <div style="display: flex; gap: 0;">
